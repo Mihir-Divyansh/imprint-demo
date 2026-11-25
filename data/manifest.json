@@ -1,0 +1,486 @@
+{
+ "source": "CMU ARCTIC (Kominek & Black, CMU), free to use and redistribute with attribution",
+ "options": "gentle fine-tuning, multi-prompt guidance, guidance strength 1, guided delivery",
+ "speakers": [
+  {
+   "id": "bdl",
+   "desc": "US English, male",
+   "guide": "slt",
+   "guide_desc": "US English, female",
+   "sentence": "I was near the cabin, and saw you.",
+   "sentence_id": "arctic_a0167",
+   "recording_s": 66.9,
+   "versions": [
+    {
+     "label": "★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "v00_Your_recipe_fine_tuning_multi_prompt_guidance_1_guided_delivery.wav"
+    },
+    {
+     "label": "Without the guide",
+     "file": "v01_Without_the_guide.wav"
+    },
+    {
+     "label": "Without fine-tuning",
+     "file": "v02_Without_fine_tuning.wav"
+    },
+    {
+     "label": "Without multi-prompt",
+     "file": "v03_Without_multi_prompt.wav"
+    },
+    {
+     "label": "At F5's default guidance (2)",
+     "file": "v04_At_F5_s_default_guidance_2.wav"
+    },
+    {
+     "label": "Guided delivery: timing only",
+     "file": "v05_Guided_delivery_timing_only.wav"
+    },
+    {
+     "label": "Guided delivery: pitch only",
+     "file": "v06_Guided_delivery_pitch_only.wav"
+    },
+    {
+     "label": "Guided delivery: loudness only",
+     "file": "v07_Guided_delivery_loudness_only.wav"
+    },
+    {
+     "label": "Baseline: plain zero-shot (nothing ticked)",
+     "file": "v08_Baseline_plain_zero_shot_nothing_ticked.wav"
+    }
+   ],
+   "table": "**Backbone:** F5-TTS (pretrained, 336M parameters)  ·  **Reference used:** 60.0 s of 60.0 s recorded (cut from 67 s; only the first 60 s are kept)\n\n| | Your voice | ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery) | Without the guide | Without fine-tuning | Without multi-prompt | At F5's default guidance (2) | Guided delivery: timing only | Guided delivery: pitch only | Guided delivery: loudness only | Baseline: plain zero-shot (nothing ticked) |\n|---|---|---|---|---|---|---|---|---|---|---|\n| Speaker similarity (WavLM-SV cosine; F5 has no speaker encoder) | 1.000 (reference) | 0.940 | 0.919 | 0.905 | 0.958 | 0.932 | 0.904 | 0.924 | 0.901 | 0.904 |\n| pitch level (median F0, Hz) *[identity]* | 124.77 | 129.24 | 128.20 | 129.70 | 126.38 | 124.60 | 128.41 | 128.43 | 128.17 | 119.34 |\n| pitch spread (semitones) *[prosody]* | 2.29 | 1.27 | 1.58 | 1.38 | 1.78 | 2.05 | 1.70 | 1.38 | 1.58 | 2.01 |\n| articulation rate (syll/s) *[prosody]* | 3.72 | 2.99 | 3.55 | 2.51 | 4.00 | 3.48 | 2.97 | 3.09 | 3.61 | 3.66 |\n| mean pause (s) *[prosody]* | 0.28 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |\n| loudness spread (dB) *[prosody]* | 4.76 | 4.36 | 3.88 | 3.60 | 4.21 | 4.10 | 4.27 | 4.13 | 3.82 | 4.68 |\n\n**F5 zero-shot:** continues a 11.0 s prompt of your voice (*Broken tooth yelled with fright and pain. I was the only one who remained sitting. The girl faced him, her eyes shining with sudden fear. Its diameter was not more than two hundred yards.*). F5 cannot use more than ~12 s this way. Length from the sentence-length model (phones, syllables, words, commas, stress), scaled to your pace over all 14 pieces (16.9 characters/s overall). Your audio is given to F5 at 24 kHz (full band).\n\n⚠️ **Your recording is 16 kHz or less:** nothing above 8 kHz reaches F5, so every clone sounds muffled. Upload a 44.1/48 kHz file or record with the laptop mic.\n\n**Prompt choice:** pieces 4, 13 of 14, chosen for a typical pace (16.1, 17.2 characters/s; your median 16.9) and no digits/abbreviations where possible.\n\n**Guided delivery** (prosody transfer from the guide recording; Toucan's aligner maps both to the same phones, then PSOLA): guide 2.1 s, heard as \"I was near the cabin and saw you.\" (0 % word mismatch with the sentence); your recipe: pitch applied to 7 of 10 vowels (mean |shift| 0.7 st), energy applied to 3 of 10 vowels (mean |gain| 0.2 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without fine-tuning: pitch applied to 2 of 10 vowels (mean |shift| 0.7 st), energy applied to 5 of 10 vowels (mean |gain| 0.6 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without multi-prompt: pitch applied to 4 of 10 vowels (mean |shift| 1.1 st), energy applied to 6 of 10 vowels (mean |gain| 1.8 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); at f5's default guidance (2): pitch applied to 5 of 10 vowels (mean |shift| 0.4 st), energy applied to 3 of 10 vowels (mean |gain| 3.1 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); guided timing only: timing applied (words x0.8-1.25, pauses x0.5-2.0); guided pitch only: pitch applied to 7 of 10 vowels (mean |shift| 0.7 st); guided loudness only: energy applied to 3 of 10 vowels (mean |gain| 0.2 dB).\n\n**Versions:** 9 versions: your recipe, one without each ticked option, and a plain zero-shot baseline.\n\n**Silent starts:** F5 began 1 synthesis(es) with more than 0.3 s of silence, which rushes the sentence; re-drawn with another seed: re-drawn with seed 2.\n\n**Multi-prompt guidance:** every clone is generated from 5 prompts covering all the audio used; at each sampling step F5's predictions from the prompts are averaged.\n\n**F5 few-shot (gentle):** its normalisation and time-conditioning layers (141,963,264 parameters) fine-tuned for 50 steps (lr 1e-05) on all 58.6 s of your speech (14 pieces), F5's own training loss 1.97 → 1.24, 103 s. Then the **same prompt** as zero-shot, so fine-tuning is the only difference. Pretrained weights restored afterwards.\n\n*Single utterance, single seed: a live illustration, not a result.*",
+   "taps": [
+    {
+     "label": "① Your recording (raw input)",
+     "file": "tap00.wav",
+     "plot": "tap00.webp"
+    },
+    {
+     "label": "② Front end: trimmed full-band copy",
+     "file": "tap01.wav",
+     "plot": "tap01.webp"
+    },
+    {
+     "label": "④ Prompt: what F5 listens to",
+     "file": "tap02.wav",
+     "plot": "tap02.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.10 (mostly noise)",
+     "file": "tap03.wav",
+     "plot": "tap03.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.26 (taking shape)",
+     "file": "tap04.wav",
+     "plot": "tap04.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.49 (taking shape)",
+     "file": "tap05.wav",
+     "plot": "tap05.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=1.00 (final)",
+     "file": "tap06.wav",
+     "plot": "tap06.webp"
+    },
+    {
+     "label": "⑥ Vocoder output: ★ recipe before post-processing",
+     "file": "tap07.wav",
+     "plot": "tap07.webp"
+    },
+    {
+     "label": "⑦ ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "tap08.wav",
+     "plot": "tap08.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: timing only",
+     "file": "tap09.wav",
+     "plot": "tap09.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: pitch only",
+     "file": "tap10.wav",
+     "plot": "tap10.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: loudness only",
+     "file": "tap11.wav",
+     "plot": "tap11.webp"
+    },
+    {
+     "label": "⑧ Final: ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "tap12.wav",
+     "plot": "tap12.webp"
+    }
+   ],
+   "spectrogram": "spectrogram.webp",
+   "pitch": "pitch.webp"
+  },
+  {
+   "id": "slt",
+   "desc": "US English, female",
+   "guide": "rms",
+   "guide_desc": "US English, male",
+   "sentence": "I was near the cabin, and saw you.",
+   "sentence_id": "arctic_a0167",
+   "recording_s": 67.4,
+   "versions": [
+    {
+     "label": "★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "v00_Your_recipe_fine_tuning_multi_prompt_guidance_1_guided_delivery.wav"
+    },
+    {
+     "label": "Without the guide",
+     "file": "v01_Without_the_guide.wav"
+    },
+    {
+     "label": "Without fine-tuning",
+     "file": "v02_Without_fine_tuning.wav"
+    },
+    {
+     "label": "Without multi-prompt",
+     "file": "v03_Without_multi_prompt.wav"
+    },
+    {
+     "label": "At F5's default guidance (2)",
+     "file": "v04_At_F5_s_default_guidance_2.wav"
+    },
+    {
+     "label": "Guided delivery: timing only",
+     "file": "v05_Guided_delivery_timing_only.wav"
+    },
+    {
+     "label": "Guided delivery: pitch only",
+     "file": "v06_Guided_delivery_pitch_only.wav"
+    },
+    {
+     "label": "Guided delivery: loudness only",
+     "file": "v07_Guided_delivery_loudness_only.wav"
+    },
+    {
+     "label": "Baseline: plain zero-shot (nothing ticked)",
+     "file": "v08_Baseline_plain_zero_shot_nothing_ticked.wav"
+    }
+   ],
+   "table": "**Backbone:** F5-TTS (pretrained, 336M parameters)  ·  **Reference used:** 60.0 s of 60.0 s recorded (cut from 67 s; only the first 60 s are kept)\n\n| | Your voice | ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery) | Without the guide | Without fine-tuning | Without multi-prompt | At F5's default guidance (2) | Guided delivery: timing only | Guided delivery: pitch only | Guided delivery: loudness only | Baseline: plain zero-shot (nothing ticked) |\n|---|---|---|---|---|---|---|---|---|---|---|\n| Speaker similarity (WavLM-SV cosine; F5 has no speaker encoder) | 1.000 (reference) | 0.953 | 0.963 | 0.957 | 0.960 | 0.962 | 0.976 | 0.961 | 0.969 | 0.968 |\n| pitch level (median F0, Hz) *[identity]* | 174.12 | 172.85 | 166.79 | 172.53 | 181.51 | 173.15 | 168.75 | 171.95 | 167.09 | 171.16 |\n| pitch spread (semitones) *[prosody]* | 1.83 | 2.60 | 1.64 | 2.60 | 1.96 | 2.68 | 1.60 | 2.66 | 1.82 | 1.62 |\n| articulation rate (syll/s) *[prosody]* | 3.73 | 4.15 | 4.08 | 3.63 | 3.17 | 4.64 | 4.15 | 4.15 | 4.15 | 3.49 |\n| mean pause (s) *[prosody]* | 0.29 | 0.17 | 0.17 | 0.17 | 0.00 | 0.16 | 0.17 | 0.17 | 0.17 | 0.00 |\n| loudness spread (dB) *[prosody]* | 4.38 | 4.79 | 4.71 | 4.12 | 3.77 | 4.32 | 4.38 | 4.57 | 4.53 | 3.46 |\n\n**F5 zero-shot:** continues a 11.8 s prompt of your voice (*She'd make a good wife for the cashier. It was a temptation, but he resisted it. We have plenty of capital ourselves, and yet we want more. That's the sub foreman, explained Thorpe. I was the only one*). F5 cannot use more than ~12 s this way. Length from the sentence-length model (phones, syllables, words, commas, stress), scaled to your pace over all 9 pieces (16.7 characters/s overall). Your audio is given to F5 at 24 kHz (full band).\n\n⚠️ **Your recording is 16 kHz or less:** nothing above 8 kHz reaches F5, so every clone sounds muffled. Upload a 44.1/48 kHz file or record with the laptop mic.\n\n**Prompt choice:** pieces 6, 7 of 9, chosen for a typical pace (17.0, 16.6 characters/s; your median 16.7) and no digits/abbreviations where possible.\n\n**Guided delivery** (prosody transfer from the guide recording; Toucan's aligner maps both to the same phones, then PSOLA): guide 2.2 s, heard as \"I was near the cabin and saw you.\" (0 % word mismatch with the sentence); your recipe: pitch applied to 10 of 10 vowels (mean |shift| 2.1 st), energy applied to 6 of 10 vowels (mean |gain| 1.9 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without fine-tuning: pitch applied to 10 of 10 vowels (mean |shift| 2.1 st), energy applied to 5 of 10 vowels (mean |gain| 1.7 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without multi-prompt: pitch applied to 8 of 10 vowels (mean |shift| 1.3 st), energy applied to 4 of 10 vowels (mean |gain| 1.8 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); at f5's default guidance (2): pitch applied to 10 of 10 vowels (mean |shift| 1.9 st), energy applied to 6 of 10 vowels (mean |gain| 1.5 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); guided timing only: timing applied (words x0.8-1.25, pauses x0.5-2.0); guided pitch only: pitch applied to 10 of 10 vowels (mean |shift| 2.1 st); guided loudness only: energy applied to 6 of 10 vowels (mean |gain| 1.9 dB).\n\n**Versions:** 9 versions: your recipe, one without each ticked option, and a plain zero-shot baseline.\n\n**Multi-prompt guidance:** every clone is generated from 5 prompts covering all the audio used; at each sampling step F5's predictions from the prompts are averaged.\n\n**F5 few-shot (gentle):** its normalisation and time-conditioning layers (141,963,264 parameters) fine-tuned for 50 steps (lr 1e-05) on all 59.7 s of your speech (9 pieces), F5's own training loss 1.76 → 1.24, 118 s. Then the **same prompt** as zero-shot, so fine-tuning is the only difference. Pretrained weights restored afterwards.\n\n*Single utterance, single seed: a live illustration, not a result.*",
+   "taps": [
+    {
+     "label": "① Your recording (raw input)",
+     "file": "tap00.wav",
+     "plot": "tap00.webp"
+    },
+    {
+     "label": "② Front end: trimmed full-band copy",
+     "file": "tap01.wav",
+     "plot": "tap01.webp"
+    },
+    {
+     "label": "④ Prompt: what F5 listens to",
+     "file": "tap02.wav",
+     "plot": "tap02.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.10 (mostly noise)",
+     "file": "tap03.wav",
+     "plot": "tap03.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.26 (taking shape)",
+     "file": "tap04.wav",
+     "plot": "tap04.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.49 (taking shape)",
+     "file": "tap05.wav",
+     "plot": "tap05.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=1.00 (final)",
+     "file": "tap06.wav",
+     "plot": "tap06.webp"
+    },
+    {
+     "label": "⑥ Vocoder output: ★ recipe before post-processing",
+     "file": "tap07.wav",
+     "plot": "tap07.webp"
+    },
+    {
+     "label": "⑦ ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "tap08.wav",
+     "plot": "tap08.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: timing only",
+     "file": "tap09.wav",
+     "plot": "tap09.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: pitch only",
+     "file": "tap10.wav",
+     "plot": "tap10.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: loudness only",
+     "file": "tap11.wav",
+     "plot": "tap11.webp"
+    },
+    {
+     "label": "⑧ Final: ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "tap12.wav",
+     "plot": "tap12.webp"
+    }
+   ],
+   "spectrogram": "spectrogram.webp",
+   "pitch": "pitch.webp"
+  },
+  {
+   "id": "ksp",
+   "desc": "Indian English, male",
+   "guide": "bdl",
+   "guide_desc": "US English, male",
+   "sentence": "I was near the cabin, and saw you.",
+   "sentence_id": "arctic_a0167",
+   "recording_s": 66.6,
+   "versions": [
+    {
+     "label": "★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "v00_Your_recipe_fine_tuning_multi_prompt_guidance_1_guided_delivery.wav"
+    },
+    {
+     "label": "Without the guide",
+     "file": "v01_Without_the_guide.wav"
+    },
+    {
+     "label": "Without fine-tuning",
+     "file": "v02_Without_fine_tuning.wav"
+    },
+    {
+     "label": "Without multi-prompt",
+     "file": "v03_Without_multi_prompt.wav"
+    },
+    {
+     "label": "At F5's default guidance (2)",
+     "file": "v04_At_F5_s_default_guidance_2.wav"
+    },
+    {
+     "label": "Guided delivery: timing only",
+     "file": "v05_Guided_delivery_timing_only.wav"
+    },
+    {
+     "label": "Guided delivery: pitch only",
+     "file": "v06_Guided_delivery_pitch_only.wav"
+    },
+    {
+     "label": "Guided delivery: loudness only",
+     "file": "v07_Guided_delivery_loudness_only.wav"
+    },
+    {
+     "label": "Baseline: plain zero-shot (nothing ticked)",
+     "file": "v08_Baseline_plain_zero_shot_nothing_ticked.wav"
+    }
+   ],
+   "table": "**Backbone:** F5-TTS (pretrained, 336M parameters)  ·  **Reference used:** 60.0 s of 60.0 s recorded (cut from 67 s; only the first 60 s are kept)\n\n| | Your voice | ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery) | Without the guide | Without fine-tuning | Without multi-prompt | At F5's default guidance (2) | Guided delivery: timing only | Guided delivery: pitch only | Guided delivery: loudness only | Baseline: plain zero-shot (nothing ticked) |\n|---|---|---|---|---|---|---|---|---|---|---|\n| Speaker similarity (WavLM-SV cosine; F5 has no speaker encoder) | 1.000 (reference) | 0.917 | 0.923 | 0.931 | 0.914 | 0.932 | 0.933 | 0.921 | 0.921 | 0.912 |\n| pitch level (median F0, Hz) *[identity]* | 132.99 | 149.11 | 147.79 | 148.43 | 119.90 | 137.31 | 145.98 | 151.30 | 148.49 | 120.48 |\n| pitch spread (semitones) *[prosody]* | 2.00 | 1.95 | 2.08 | 2.04 | 1.57 | 1.76 | 1.99 | 2.02 | 2.10 | 1.27 |\n| articulation rate (syll/s) *[prosody]* | 3.47 | 3.69 | 3.51 | 3.46 | 3.26 | 3.47 | 4.19 | 3.52 | 3.10 | 2.48 |\n| mean pause (s) *[prosody]* | 0.32 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |\n| loudness spread (dB) *[prosody]* | 4.85 | 3.94 | 3.39 | 4.66 | 4.89 | 4.86 | 3.54 | 3.39 | 4.19 | 4.01 |\n\n**F5 zero-shot:** continues a 11.7 s prompt of your voice (*tooth held with frightened pain. Between him and the explained Thorpe. I was the only one who remained sitting. The girl faced him, her eyes shining with sudden fear. Its diameter was*). F5 cannot use more than ~12 s this way. Length from the sentence-length model (phones, syllables, words, commas, stress), scaled to your pace over all 8 pieces (15.6 characters/s overall). Your audio is given to F5 at 24 kHz (full band).\n\n⚠️ **Your recording is 16 kHz or less:** nothing above 8 kHz reaches F5, so every clone sounds muffled. Upload a 44.1/48 kHz file or record with the laptop mic.\n\n**Prompt choice:** pieces 2, 7 of 8, chosen for a typical pace (15.3, 15.8 characters/s; your median 15.6) and no digits/abbreviations where possible.\n\n**Guided delivery** (prosody transfer from the guide recording; Toucan's aligner maps both to the same phones, then PSOLA): guide 1.9 s, heard as \"I was near the cabin and saw you.\" (0 % word mismatch with the sentence); your recipe: pitch applied to 8 of 10 vowels (mean |shift| 1.0 st), energy applied to 9 of 10 vowels (mean |gain| 2.0 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without fine-tuning: pitch applied to 9 of 10 vowels (mean |shift| 1.0 st), energy applied to 6 of 10 vowels (mean |gain| 1.5 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without multi-prompt: pitch applied to 8 of 10 vowels (mean |shift| 1.1 st), energy applied to 4 of 10 vowels (mean |gain| 1.6 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); at f5's default guidance (2): pitch applied to 7 of 10 vowels (mean |shift| 1.2 st), energy applied to 6 of 10 vowels (mean |gain| 1.5 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); guided timing only: timing applied (words x0.8-1.25, pauses x0.5-2.0); guided pitch only: pitch applied to 8 of 10 vowels (mean |shift| 1.0 st); guided loudness only: energy applied to 9 of 10 vowels (mean |gain| 2.0 dB).\n\n**Versions:** 9 versions: your recipe, one without each ticked option, and a plain zero-shot baseline.\n\n**Multi-prompt guidance:** every clone is generated from 5 prompts covering all the audio used; at each sampling step F5's predictions from the prompts are averaged.\n\n**F5 few-shot (gentle):** its normalisation and time-conditioning layers (141,963,264 parameters) fine-tuned for 50 steps (lr 1e-05) on all 60.1 s of your speech (8 pieces), F5's own training loss 1.92 → 1.24, 136 s. Then the **same prompt** as zero-shot, so fine-tuning is the only difference. Pretrained weights restored afterwards.\n\n*Single utterance, single seed: a live illustration, not a result.*",
+   "taps": [
+    {
+     "label": "① Your recording (raw input)",
+     "file": "tap00.wav",
+     "plot": "tap00.webp"
+    },
+    {
+     "label": "② Front end: trimmed full-band copy",
+     "file": "tap01.wav",
+     "plot": "tap01.webp"
+    },
+    {
+     "label": "④ Prompt: what F5 listens to",
+     "file": "tap02.wav",
+     "plot": "tap02.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.10 (mostly noise)",
+     "file": "tap03.wav",
+     "plot": "tap03.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.26 (taking shape)",
+     "file": "tap04.wav",
+     "plot": "tap04.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.49 (taking shape)",
+     "file": "tap05.wav",
+     "plot": "tap05.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=1.00 (final)",
+     "file": "tap06.wav",
+     "plot": "tap06.webp"
+    },
+    {
+     "label": "⑥ Vocoder output: ★ recipe before post-processing",
+     "file": "tap07.wav",
+     "plot": "tap07.webp"
+    },
+    {
+     "label": "⑦ ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "tap08.wav",
+     "plot": "tap08.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: timing only",
+     "file": "tap09.wav",
+     "plot": "tap09.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: pitch only",
+     "file": "tap10.wav",
+     "plot": "tap10.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: loudness only",
+     "file": "tap11.wav",
+     "plot": "tap11.webp"
+    },
+    {
+     "label": "⑧ Final: ★ Your recipe (fine-tuning + multi-prompt + guidance 1 + guided delivery)",
+     "file": "tap12.wav",
+     "plot": "tap12.webp"
+    }
+   ],
+   "spectrogram": "spectrogram.webp",
+   "pitch": "pitch.webp"
+  },
+  {
+   "id": "author",
+   "desc": "the author (E. Mihir Divyansh), laptop microphone",
+   "guide": "the author",
+   "guide_desc": "laptop microphone",
+   "guide_published": true,
+   "sentence": "Hello everyone. Welcome to my speech systems course project presentation. I am going to showcase few shot voice cloning today.",
+   "sentence_id": "",
+   "recording_s": 45.8,
+   "recording": "recording.wav",
+   "versions": [
+    {
+     "label": "★ Your recipe (fine-tuning + multi-prompt + input denoising + guidance 1 + guided delivery)",
+     "file": "v00_Your_recipe_fine_tuning_multi_prompt_input_denoising_guidance_1_guided_delivery.wav"
+    },
+    {
+     "label": "Without the guide",
+     "file": "v01_Without_the_guide.wav"
+    },
+    {
+     "label": "Without fine-tuning",
+     "file": "v02_Without_fine_tuning.wav"
+    },
+    {
+     "label": "Without multi-prompt",
+     "file": "v03_Without_multi_prompt.wav"
+    },
+    {
+     "label": "Without input denoising",
+     "file": "v04_Without_input_denoising.wav"
+    },
+    {
+     "label": "At F5's default guidance (2)",
+     "file": "v05_At_F5_s_default_guidance_2.wav"
+    },
+    {
+     "label": "Guided delivery: timing only",
+     "file": "v06_Guided_delivery_timing_only.wav"
+    },
+    {
+     "label": "Guided delivery: pitch only",
+     "file": "v07_Guided_delivery_pitch_only.wav"
+    },
+    {
+     "label": "Guided delivery: loudness only",
+     "file": "v08_Guided_delivery_loudness_only.wav"
+    },
+    {
+     "label": "Baseline: plain zero-shot (nothing ticked)",
+     "file": "v09_Baseline_plain_zero_shot_nothing_ticked.wav"
+    }
+   ],
+   "table": "**Backbone:** F5-TTS (pretrained, 336M parameters)  ·  **Reference used:** 45.8 s of 45.8 s recorded\n\n| | Your voice | ★ Your recipe (fine-tuning + multi-prompt + input denoising + guidance 1 + guided delivery) | Without the guide | Without fine-tuning | Without multi-prompt | Without input denoising | At F5's default guidance (2) | Guided delivery: timing only | Guided delivery: pitch only | Guided delivery: loudness only | Baseline: plain zero-shot (nothing ticked) |\n|---|---|---|---|---|---|---|---|---|---|---|---|\n| Speaker similarity (WavLM-SV cosine; F5 has no speaker encoder) | 1.000 (reference) | 0.967 | 0.967 | 0.967 | 0.986 | 0.979 | 0.975 | 0.967 | 0.972 | 0.969 | 0.991 |\n| pitch level (median F0, Hz) *[identity]* | 152.48 | 159.87 | 158.34 | 161.13 | 167.41 | 160.15 | 157.64 | 159.40 | 158.31 | 158.52 | 152.86 |\n| pitch spread (semitones) *[prosody]* | 2.60 | 2.88 | 3.01 | 2.73 | 2.65 | 2.66 | 2.74 | 2.99 | 2.93 | 3.03 | 1.88 |\n| articulation rate (syll/s) *[prosody]* | 4.44 | 4.11 | 3.67 | 4.40 | 4.28 | 4.19 | 4.27 | 4.23 | 3.68 | 3.65 | 4.35 |\n| mean pause (s) *[prosody]* | 0.41 | 0.45 | 0.38 | 0.35 | 0.31 | 0.55 | 0.36 | 0.37 | 0.38 | 0.37 | 0.27 |\n| loudness spread (dB) *[prosody]* | 4.99 | 5.02 | 5.44 | 4.98 | 5.21 | 4.87 | 4.71 | 5.20 | 5.20 | 5.35 | 5.66 |\n\n**F5 zero-shot:** continues a 11.7 s prompt of your voice (*your voice and has a sentence you never recorded. You choose what goes into the clone, fine -tuning on your own recording, all your takes about thirty seconds with every option three to five minutes.*). F5 cannot use more than ~12 s this way. Length from the sentence-length model (phones, syllables, words, commas, stress), scaled to your pace over all 6 pieces (16.0 characters/s overall). Your audio is given to F5 at 44 kHz (full band), **denoised first with DeepFilterNet3** (prompt and fine-tuning data).\n\n**Prompt choice:** pieces 4, 6 of 6, chosen for a typical pace (16.6, 19.0 characters/s; your median 16.0) and no digits/abbreviations where possible.\n\n**Guided delivery** (prosody transfer from the guide recording; Toucan's aligner maps both to the same phones, then PSOLA): denoised with DeepFilterNet3; guide 7.5 s, heard as \"Hello everyone, welcome to my speech systems course project presentation. I am going to showcase few short voice cloning today.\" (5 % word mismatch with the sentence); your recipe: pitch applied to 28 of 43 vowels (mean |shift| 2.1 st), energy applied to 29 of 43 vowels (mean |gain| 2.5 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without fine-tuning: pitch applied to 31 of 43 vowels (mean |shift| 1.8 st), energy applied to 31 of 43 vowels (mean |gain| 1.9 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without multi-prompt: pitch applied to 37 of 43 vowels (mean |shift| 2.0 st), energy applied to 29 of 43 vowels (mean |gain| 3.1 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); without input denoising: pitch applied to 25 of 43 vowels (mean |shift| 1.9 st), energy applied to 30 of 43 vowels (mean |gain| 2.3 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); at f5's default guidance (2): pitch applied to 28 of 43 vowels (mean |shift| 1.4 st), energy applied to 30 of 43 vowels (mean |gain| 1.7 dB), timing applied (words x0.8-1.25, pauses x0.5-2.0); guided timing only: timing applied (words x0.8-1.25, pauses x0.5-2.0); guided pitch only: pitch applied to 28 of 43 vowels (mean |shift| 2.1 st); guided loudness only: energy applied to 29 of 43 vowels (mean |gain| 2.5 dB).\n\n**Versions:** 10 versions: your recipe, one without each ticked option, and a plain zero-shot baseline.\n\n**Silent starts:** F5 began 1 synthesis(es) with more than 0.3 s of silence, which rushes the sentence; re-drawn with another seed: 0.41 s silent start kept after seed 1.\n\n**Multi-prompt guidance:** every clone is generated from 5 prompts covering all the audio used; at each sampling step F5's predictions from the prompts are averaged.\n\n**F5 few-shot (gentle):** its normalisation and time-conditioning layers (141,963,264 parameters) fine-tuned for 50 steps (lr 1e-05) on all 44.8 s of your speech (6 pieces), F5's own training loss 0.69 → 0.89, 266 s. Then the **same prompt** as zero-shot, so fine-tuning is the only difference. Pretrained weights restored afterwards.\n\n*Single utterance, single seed: a live illustration, not a result.*",
+   "diagram": "<svg viewBox=\"0 0 1310 560\" width=\"100%\" style=\"max-width:100%;background:#0b161b;border-radius:14px\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Archivo, Helvetica, Arial, sans-serif\"><defs><marker id=\"ah\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#6f8b96\"/></marker><marker id=\"ahA\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"#3fd0e8\"/></marker></defs><path d=\"M216,76.0 L293,76.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M489,76.0 L566,76.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M762,76.0 L839,76.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M1035,76.0 L1094,76.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M1192.0,122 L1192.0,230\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M1094,276.0 L1035,276.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M839,276.0 L762,276.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M566,276.0 L489,276.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M293,276.0 L118.0,276.0 L118.0,430\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M216,476.0 L293,476.0\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M664.0,430 L664.0,322\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><path d=\"M937.0,122 L937.0,190 L664.0,190 L664.0,230\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" marker-end=\"url(#ah)\"/><text x=\"254.5\" y=\"56.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">audio</text><text x=\"254.5\" y=\"68.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">native rate</text><text x=\"527.5\" y=\"56.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">full-band</text><text x=\"527.5\" y=\"68.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">wav</text><text x=\"800.5\" y=\"56.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">16 kHz</text><text x=\"800.5\" y=\"68.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">wav</text><text x=\"1064.5\" y=\"56.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">pieces +</text><text x=\"1064.5\" y=\"68.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">exact text</text><text x=\"1182.0\" y=\"164.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"end\">prompt mel</text><text x=\"1182.0\" y=\"176.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"end\">N×100 + text</text><text x=\"1064.5\" y=\"256.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">mel</text><text x=\"1064.5\" y=\"268.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">100×T</text><text x=\"800.5\" y=\"256.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">24 kHz</text><text x=\"800.5\" y=\"268.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">wav</text><text x=\"527.5\" y=\"256.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">edited</text><text x=\"527.5\" y=\"268.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">wav</text><text x=\"126.0\" y=\"353.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"start\">clone wavs</text><text x=\"254.5\" y=\"468.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">wavs</text><text x=\"672.0\" y=\"376.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"start\">guide timing, pitch, loudness</text><text x=\"800.5\" y=\"183\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"middle\">text for alignment</text><path d=\"M1162.0,322 L1162.0,430\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" stroke-dasharray=\"7 6\" marker-end=\"url(#ah)\"></path><path d=\"M1222.0,430 L1222.0,322\" fill=\"none\" stroke=\"#45606b\" stroke-width=\"1.6\" stroke-dasharray=\"7 6\" marker-end=\"url(#ah)\"></path><text x=\"1154.0\" y=\"376.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"end\">loss</text><text x=\"1230.0\" y=\"376.0\" fill=\"#8aa6b0\" font-size=\"10.5\" text-anchor=\"start\">updated weights</text><g opacity=\"1.0\"><rect x=\"20\" y=\"30\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"34\" y=\"54\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Your recording</text><text x=\"200\" y=\"54\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"34\" y=\"72\" fill=\"#8fb0bb\" font-size=\"11.5\">mic or upload</text><text x=\"34\" y=\"92\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">45.8 s · 44.1 kHz</text></g><g opacity=\"1.0\"><rect x=\"293\" y=\"30\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"307\" y=\"54\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Front end</text><text x=\"473\" y=\"54\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"307\" y=\"72\" fill=\"#8fb0bb\" font-size=\"11.5\">trim · resample · 2 copies</text><text x=\"307\" y=\"92\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">45.8 s used · 16 k + 44.1</text><text x=\"307\" y=\"107\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">k copies</text></g><g opacity=\"1.0\"><rect x=\"566\" y=\"30\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"580\" y=\"54\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Input denoise</text><text x=\"746\" y=\"54\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"580\" y=\"72\" fill=\"#8fb0bb\" font-size=\"11.5\">DeepFilterNet3</text><text x=\"580\" y=\"92\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">noise removed (ERB mask +</text><text x=\"580\" y=\"107\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">deep filter)</text></g><g opacity=\"1.0\"><rect x=\"839\" y=\"30\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"853\" y=\"54\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Transcriber</text><text x=\"1019\" y=\"54\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"853\" y=\"72\" fill=\"#8fb0bb\" font-size=\"11.5\">Whisper large-v3-turbo</text><text x=\"853\" y=\"92\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">6 pieces · 120 words</text></g><g opacity=\"1.0\"><rect x=\"1094\" y=\"30\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"1108\" y=\"54\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Prompt builder</text><text x=\"1274\" y=\"54\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"1108\" y=\"72\" fill=\"#8fb0bb\" font-size=\"11.5\">≤12 s prompt · length</text><text x=\"1108\" y=\"92\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">prompt 11.7 s · 5 prompt</text><text x=\"1108\" y=\"107\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">groups</text></g><g opacity=\"1.0\"><rect x=\"1094\" y=\"230\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"1108\" y=\"254\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">F5-TTS sampler</text><text x=\"1274\" y=\"254\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"1108\" y=\"272\" fill=\"#8fb0bb\" font-size=\"11.5\">DiT 337M · flow matching</text><text x=\"1108\" y=\"292\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">8.58 s generated</text></g><g opacity=\"1.0\"><rect x=\"839\" y=\"230\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"853\" y=\"254\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Vocoder</text><text x=\"1019\" y=\"254\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"853\" y=\"272\" fill=\"#8fb0bb\" font-size=\"11.5\">Vocos · mel → waveform</text><text x=\"853\" y=\"292\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">mel → 24 kHz waveform</text></g><g opacity=\"1.0\"><rect x=\"566\" y=\"230\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"580\" y=\"254\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Prosody pass</text><text x=\"746\" y=\"254\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"580\" y=\"272\" fill=\"#8fb0bb\" font-size=\"11.5\">Toucan aligner + PSOLA</text><text x=\"580\" y=\"292\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">guided transfer</text></g><g opacity=\"0.38\"><rect x=\"293\" y=\"230\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#13252c\" stroke=\"#5b7380\" stroke-width=\"1.6\"></rect><text x=\"307\" y=\"254\" fill=\"#8ea3ac\" font-size=\"15\" font-weight=\"700\">Output denoise</text><text x=\"473\" y=\"254\" fill=\"#5b7380\" font-size=\"15\" text-anchor=\"end\">–</text><text x=\"307\" y=\"272\" fill=\"#8fb0bb\" font-size=\"11.5\">DeepFilterNet3</text><text x=\"307\" y=\"292\" fill=\"#8ea3ac\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">off</text></g><g opacity=\"1.0\"><rect x=\"20\" y=\"430\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"34\" y=\"454\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Your clones</text><text x=\"200\" y=\"454\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"34\" y=\"472\" fill=\"#8fb0bb\" font-size=\"11.5\">recipe · without-X · guided</text><text x=\"34\" y=\"492\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">10 versions</text></g><g opacity=\"1.0\"><rect x=\"293\" y=\"430\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"307\" y=\"454\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Evaluator</text><text x=\"473\" y=\"454\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"307\" y=\"472\" fill=\"#8fb0bb\" font-size=\"11.5\">WavLM-SV · prosody stats</text><text x=\"307\" y=\"492\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">SIM ★ 0.967 · 10 rows</text></g><g opacity=\"1.0\"><rect x=\"566\" y=\"430\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"580\" y=\"454\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Guide recording</text><text x=\"746\" y=\"454\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"580\" y=\"472\" fill=\"#8fb0bb\" font-size=\"11.5\">optional · same sentence</text><text x=\"580\" y=\"492\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">guide received</text></g><g opacity=\"1.0\"><rect x=\"1094\" y=\"430\" width=\"196\" height=\"92\" rx=\"12\" fill=\"#12302a\" stroke=\"#3fb07a\" stroke-width=\"1.6\"></rect><text x=\"1108\" y=\"454\" fill=\"#e6f5ec\" font-size=\"15\" font-weight=\"700\">Fine-tuning</text><text x=\"1274\" y=\"454\" fill=\"#3fb07a\" font-size=\"15\" text-anchor=\"end\">✓</text><text x=\"1108\" y=\"472\" fill=\"#8fb0bb\" font-size=\"11.5\">gentle · adaLN 142M</text><text x=\"1108\" y=\"492\" fill=\"#e6f5ec\" font-size=\"11.5\" font-family=\"JetBrains Mono, Menlo, monospace\">loss 0.60 → 0.72 · 18 s</text></g></svg>",
+   "taps": [
+    {
+     "label": "① Your recording (raw input)",
+     "file": "tap00.wav",
+     "plot": "tap00.webp"
+    },
+    {
+     "label": "② Front end: trimmed full-band copy",
+     "file": "tap01.wav",
+     "plot": "tap01.webp"
+    },
+    {
+     "label": "③ Denoised input",
+     "file": "tap02.wav",
+     "plot": "tap02.webp"
+    },
+    {
+     "label": "④ Prompt: what F5 listens to",
+     "file": "tap03.wav",
+     "plot": "tap03.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.10 (mostly noise)",
+     "file": "tap04.wav",
+     "plot": "tap04.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.26 (taking shape)",
+     "file": "tap05.wav",
+     "plot": "tap05.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=0.49 (taking shape)",
+     "file": "tap06.wav",
+     "plot": "tap06.webp"
+    },
+    {
+     "label": "⑤ F5 sampler at t=1.00 (final)",
+     "file": "tap07.wav",
+     "plot": "tap07.webp"
+    },
+    {
+     "label": "⑥ Vocoder output: ★ recipe before post-processing",
+     "file": "tap08.wav",
+     "plot": "tap08.webp"
+    },
+    {
+     "label": "⑦ ★ Your recipe (fine-tuning + multi-prompt + input denoising + guidance 1 + guided delivery)",
+     "file": "tap09.wav",
+     "plot": "tap09.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: timing only",
+     "file": "tap10.wav",
+     "plot": "tap10.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: pitch only",
+     "file": "tap11.wav",
+     "plot": "tap11.webp"
+    },
+    {
+     "label": "⑦ Guided delivery: loudness only",
+     "file": "tap12.wav",
+     "plot": "tap12.webp"
+    },
+    {
+     "label": "⑧ Final: ★ Your recipe (fine-tuning + multi-prompt + input denoising + guidance 1 + guided delivery)",
+     "file": "tap13.wav",
+     "plot": "tap13.webp"
+    }
+   ],
+   "spectrogram": "spectrogram.webp",
+   "pitch": "pitch.webp"
+  }
+ ]
+}

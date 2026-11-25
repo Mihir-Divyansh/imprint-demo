@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imprint: Few-shot voice cloning</title>
+<meta name="description" content="A fixed replay of the Imprint demo: few-shot voice cloning with F5-TTS, multi-prompt guidance and prosody transfer, on CMU ARCTIC voices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f7f9; --panel:#ffffff; --panel-2:#eef3f6; --ink:#17212b; --muted:#5b6b78; --line:#d5dee4;
+  --accent:#0a6d86; --accent-soft:#dcecf1; --warn:#a33a2f; --warn-soft:#f6e1de;
+  --shadow:0 1px 2px rgba(23,33,43,.06),0 4px 16px rgba(23,33,43,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1419; --panel:#151d24; --panel-2:#1b252e; --ink:#e6edf2; --muted:#9aabb8; --line:#2a3742;
+    --accent:#4cc3dc; --accent-soft:#16323b; --warn:#ff8a7a; --warn-soft:#3a1f1c; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1419; --panel:#151d24; --panel-2:#1b252e; --ink:#e6edf2; --muted:#9aabb8; --line:#2a3742;
+  --accent:#4cc3dc; --accent-soft:#16323b; --warn:#ff8a7a; --warn-soft:#3a1f1c; --shadow:none;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 64px}
+header.hero{background:linear-gradient(135deg,#0c3a47,#0a6d86);color:#fff;border-radius:16px;padding:28px 28px 24px;margin-bottom:20px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.hero h1{margin:6px 0 10px;font-size:30px;line-height:1.15}
+.hero p{margin:0;max-width:760px;opacity:.95}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-size:12px;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:3px 10px}
+.picker{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.picker button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 14px;cursor:pointer}
+.picker button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+section.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 18px 20px;margin-bottom:18px}
+.step-head{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px}
+.hint{color:var(--muted);font-size:13.5px;margin:4px 0 12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--panel-2);border-radius:10px;padding:12px}
+.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.sentence{font-size:17px;font-weight:600}
+audio{width:100%;margin-top:6px}
+ul.opts{margin:6px 0 0;padding-left:18px}
+.diagram{background:#0f171d;border-radius:12px;padding:8px;overflow-x:auto}
+.diagram svg{display:block;min-width:720px;width:100%;height:auto}
+select{font:inherit;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);width:100%}
+.toggles{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.toggles label{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--panel-2)}
+.toggles input{accent-color:var(--accent)}
+.now{border:2px solid var(--accent);border-radius:12px;padding:12px;background:var(--accent-soft)}
+.now .name{font-weight:600}
+.note{font-size:13.5px;color:var(--muted);margin-top:6px}
+.note.warn{color:var(--warn)}
+details{margin-top:12px}
+summary{cursor:pointer;color:var(--accent);font-weight:600}
+.vlist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media (max-width:760px){.vlist{grid-template-columns:1fr}}
+img.plot{width:100%;height:auto;border-radius:8px;background:#fff;margin-top:8px}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;font-size:12.5px;margin-top:8px}
+th,td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:var(--panel)}
+.md p{margin:8px 0}
+footer{color:var(--muted);font-size:13px;margin-top:28px}
+.synthetic{font-size:11px;font-weight:700;color:var(--warn);background:var(--warn-soft);border-radius:6px;padding:1px 6px;margin-left:6px}
+.real{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:1px 6px;margin-left:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">IIT Hyderabad · Speech Systems course project</div>
+    <h1>Imprint: Few-shot voice cloning</h1>
+    <p>A fixed replay of the live demo. Each voice below was cloned from 60 seconds of its recordings with F5-TTS,
+      using all of the audio as prompts (multi-prompt guidance) and a light fine-tune, and then given a
+      guide's delivery of the sentence (prosody transfer). Tick and untick the options to hear what each one does.</p>
+    <div class="chips"><span class="chip">Pre-computed: nothing runs in your browser</span>
+      <span class="chip">CMU ARCTIC voices and the author&#39;s own voice</span><span class="chip">Every clone is labelled synthetic</span></div>
+  </header>
+
+  <div class="picker" id="picker" role="group" aria-label="Choose a voice"></div>
+
+  <section class="step">
+    <div class="step-head"><span class="num">1</span>Set up</div>
+    <div class="hint">What went into this clone: the speaker's recording, the sentence the clone says (never in the
+      recording), and a guide: another speaker reading that sentence.</div>
+    <div class="grid2">
+      <div class="card"><div class="label">The speaker's recording <span class="real">REAL</span></div>
+        <div id="recDesc"></div><audio id="recAudio" controls preload="none"></audio></div>
+      <div class="card"><div class="label">Sentence for the clone</div><div class="sentence" id="sentence"></div>
+        <div class="label" style="margin-top:10px">Guide <span class="real">REAL</span></div>
+        <div id="guideDesc"></div><audio id="guideAudio" controls preload="none"></audio></div>
+    </div>
+    <div class="card" style="margin-top:12px"><div class="label">Options used</div>
+      <ul class="opts">
+        <li><b>Fine-tuning</b> (gentle): only F5's time-conditioned layer-norm modulation, 50 steps.</li>
+        <li><b>Multi-prompt guidance</b>: F5's prediction averaged over up to 5 prompts at every step, so all 60 s are used.</li>
+        <li><b>Guidance strength 1</b> (F5's default is 2).</li>
+        <li><b>Guided delivery</b>: the guide's clear pitch accents (&gt; 0.8 semitones), loudness (&gt; 1.5 dB) and
+          gently adjusted timing, moved onto the clone with Toucan's aligner and PSOLA.</li>
+      </ul></div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">2</span>The system</div>
+    <div class="hint">The demo's live diagram at the end of this run, with each block's real numbers. Pick a step to
+      hear the audio at that point and see its spectrogram.</div>
+    <div class="diagram" id="diagram"></div>
+    <div class="grid2" style="margin-top:12px">
+      <div><div class="label">Hear a step</div><select id="tapSel"></select></div>
+      <div><div class="label">This step's audio</div><audio id="tapAudio" controls preload="none"></audio></div>
+    </div>
+    <img class="plot" id="tapPlot" alt="Spectrogram of the selected step">
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">3</span>Listen: with and without</div>
+    <div class="hint">All boxes ticked is the full recipe. Untick one option to hear the clone without it; untick all
+      of them for plain zero-shot. Every clone is synthetic.</div>
+    <div class="toggles" id="toggles"></div>
+    <div class="now"><div class="name"><span id="nowName"></span><span class="synthetic">SYNTHETIC</span></div>
+      <audio id="nowAudio" controls preload="none"></audio>
+      <div class="note" id="nowNote"></div></div>
+    <details><summary>All versions, side by side</summary><div class="vlist" id="vlist"></div></details>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><span class="num">4</span>Zero-shot vs the full solution</div>
+    <div class="hint">Spectrograms of plain zero-shot and the full recipe, then the pitch contours of both against
+      the guide's (grey). The guided clone follows the guide's melody; the zero-shot one does not.</div>
+    <img class="plot" id="specImg" alt="Spectrograms: zero-shot and full solution">
+    <img class="plot" id="pitchImg" alt="Pitch contours: guide versus clones">
+    <details><summary>Measurements and how each version was made</summary>
+      <div class="table-wrap md" id="table"></div></details>
+  </section>
+
+  <footer>
+    <p>Voices: CMU ARCTIC (J. Kominek and A. W. Black, Carnegie Mellon University), used under its free licence, and the author&#39;s own laptop-microphone recordings (the author is also the guide in that run, which additionally uses input denoising).
+      Models: F5-TTS v1 Base, ToucanTTS's aligner, Whisper large-v3-turbo, WavLM-Base-Plus-SV; all pretrained and
+      open, run locally. These clones were made for a course project on few-shot voice cloning; do not use voice
+      cloning to impersonate anyone.</p>
+  </footer>
+</div>
+
+<script src="data/manifest.js"></script>
+<script>
+(function(){
+  const M = window.IMPRINT_MANIFEST;
+  const $ = id => document.getElementById(id);
+  const WARN = "  ⚠ guide not applied (alignment unreliable)", WARN2 = "  ⚠ did not copy your voice";
+  const base = n => n.replace(WARN, "").replace(WARN2, "");
+
+  // Mirrors toggle_spec in src/imprint/demo/app.py: all on, all but one, none.
+  function toggleSpec(names){
+    const star = names.find(n => base(n).startsWith("★")) || names[0];
+    const opts = [];
+    names.forEach(n => {
+      const b = base(n);
+      if (b.startsWith("Without ")) opts.push([b.slice(8), n]);
+      else if (b.startsWith("At F5's default guidance")) opts.push(["guidance below F5's default", n]);
+    });
+    const labels = opts.map(o => o[0]), key = arr => [...arr].sort().join("|"), combos = {};
+    combos[key(labels)] = star;
+    opts.forEach(([o, n]) => { combos[key(labels.filter(l => l !== o))] = n; });
+    names.forEach(n => { if (base(n).startsWith("Baseline")) combos[""] = n; });
+    return {labels, combos, star, key};
+  }
+
+  function md(src){   // the demo's measurement table: markdown tables, paragraphs, **bold**
+    const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\*(.+?)\*/g,"<i>$1</i>").replace(/`(.+?)`/g,"<code>$1</code>");
+    const lines = (src || "").split("\n"), out = [];
+    for (let i = 0; i < lines.length; i++){
+      const l = lines[i];
+      if (l.trim().startsWith("|")){
+        const rows = [];
+        while (i < lines.length && lines[i].trim().startsWith("|")) rows.push(lines[i++]);
+        i--;
+        const cells = r => r.trim().replace(/^\||\|$/g,"").split("|").map(c => c.trim());
+        const body = rows.filter(r => !/^\s*\|?\s*:?-{3,}/.test(r.replace(/\|/g,"").trim() ? r : "---"));
+        const head = cells(rows[0]);
+        let h = "<table><thead><tr>" + head.map(c => "<th>" + inline(c) + "</th>").join("") + "</tr></thead><tbody>";
+        rows.slice(1).filter(r => !/^\s*\|(\s*:?-+:?\s*\|)+\s*$/.test(r)).forEach(r => {
+          h += "<tr>" + cells(r).map(c => "<td>" + inline(c) + "</td>").join("") + "</tr>"; });
+        out.push(h + "</tbody></table>");
+      } else if (l.trim()) out.push("<p>" + inline(l) + "</p>");
+    }
+    return out.join("");
+  }
+
+  let cur = null, spec = null;
+  function play(name){
+    const v = cur.versions.find(x => x.label === name);
+    $("nowName").textContent = name;
+    $("nowAudio").src = "data/" + cur.id + "/" + v.file;
+    const warn = name.includes(WARN) ? " The guide was not applied to this version (alignment unreliable)." : "";
+    $("nowNote").textContent = (name === spec.star ? "Full recipe. Untick an option to hear the clone without it." : "") + warn;
+    $("nowNote").className = "note" + (warn ? " warn" : "");
+  }
+  function onToggle(){
+    const sel = [...document.querySelectorAll("#toggles input:checked")].map(i => i.value);
+    const name = spec.combos[spec.key(sel)];
+    if (!name){
+      $("nowNote").textContent = "That combination was not generated: switch off one option at a time, or all of them (plain zero-shot).";
+      $("nowNote").className = "note warn";
+      return;
+    }
+    play(name);
+  }
+  function show(s){
+    cur = s;
+    document.querySelectorAll("#picker button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === s.id));
+    const d = "data/" + s.id + "/";
+    $("recDesc").textContent = s.id + " (" + s.desc + "), " + s.recording_s + " s";
+    $("recAudio").src = d + (s.recording || "recording.wav");
+    $("sentence").textContent = "“" + s.sentence + "”";
+    const pub = s.guide_published !== false;
+    $("guideDesc").textContent = s.guide + " (" + s.guide_desc + ") reading the same sentence"
+      + (pub ? "" : ". Their recording shaped the clone's delivery but is not published here.");
+    $("guideAudio").style.display = pub ? "" : "none";
+    if (pub) $("guideAudio").src = d + "guide.wav"; else $("guideAudio").removeAttribute("src");
+    $("diagram").innerHTML = s.diagram || "";
+    $("tapSel").innerHTML = s.taps.map((t, i) => `<option value="${i}">${t.label.replace(/</g,"&lt;")}</option>`).join("");
+    const tap = i => { const t = s.taps[i]; $("tapAudio").src = d + t.file;
+      if (t.plot){ $("tapPlot").src = d + t.plot; $("tapPlot").style.display = ""; } else $("tapPlot").style.display = "none"; };
+    $("tapSel").onchange = e => tap(+e.target.value);
+    if (s.taps.length){ $("tapSel").value = s.taps.length - 1; tap(s.taps.length - 1); }
+    spec = toggleSpec(s.versions.map(v => v.label));
+    $("toggles").innerHTML = spec.labels.map(l => `<label><input type="checkbox" value="${l}" checked> ${l}</label>`).join("");
+    document.querySelectorAll("#toggles input").forEach(i => i.onchange = onToggle);
+    play(spec.star);
+    $("vlist").innerHTML = s.versions.map(v => `<div class="card"><div class="name">${v.label.replace(/</g,"&lt;")}<span class="synthetic">SYNTHETIC</span></div><audio controls preload="none" src="${d + v.file}"></audio></div>`).join("");
+    $("specImg").src = s.spectrogram ? d + s.spectrogram : "";
+    $("pitchImg").src = s.pitch ? d + s.pitch : "";
+    $("pitchImg").style.display = s.pitch ? "" : "none";
+    $("table").innerHTML = md(s.table);
+  }
+  $("picker").innerHTML = M.speakers.map(s => `<button data-id="${s.id}" aria-pressed="false">${s.id} · ${s.desc}</button>`).join("");
+  document.querySelectorAll("#picker button").forEach(b => b.onclick = () => show(M.speakers.find(s => s.id === b.dataset.id)));
+  show(M.speakers[0]);
+})();
+</script>
+</body>
+</html>
